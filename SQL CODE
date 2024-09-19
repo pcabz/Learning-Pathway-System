@@ -1,0 +1,81 @@
+-- Create tables
+
+CREATE TABLE students (
+    StudentID INTEGER PRIMARY KEY AUTOINCREMENT,
+    FirstName TEXT,
+    LastName TEXT,
+    DateOfBirth DATE,
+    Email TEXT UNIQUE,
+    LearningStyle TEXT,
+    EnrollmentDate DATE
+);
+
+CREATE TABLE courses (
+    CourseID INTEGER PRIMARY KEY AUTOINCREMENT,
+    CourseName TEXT,
+    Description TEXT,
+    Credits INTEGER,
+    InstructorName TEXT
+);
+
+CREATE TABLE enrollments (
+    EnrollmentID INTEGER PRIMARY KEY AUTOINCREMENT,
+    StudentID INTEGER,
+    CourseID INTEGER,
+    EnrollmentDate DATE,
+    ProgressStatus TEXT,
+    FOREIGN KEY (StudentID) REFERENCES students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES courses(CourseID)
+);
+
+CREATE TABLE assessments (
+    AssessmentID INTEGER PRIMARY KEY AUTOINCREMENT,
+    CourseID INTEGER,
+    AssessmentType TEXT,
+    DueDate DATE,
+    MaxScore INTEGER,
+    FOREIGN KEY (CourseID) REFERENCES courses(CourseID)
+);
+
+CREATE TABLE student_performance (
+    PerformanceID INTEGER PRIMARY KEY AUTOINCREMENT,
+    StudentID INTEGER,
+    AssessmentID INTEGER,
+    Score INTEGER,
+    Feedback TEXT,
+    FOREIGN KEY (StudentID) REFERENCES students(StudentID),
+    FOREIGN KEY (AssessmentID) REFERENCES assessments(AssessmentID)
+);
+
+-- Insert sample records
+
+INSERT INTO students (FirstName, LastName, DateOfBirth, Email, LearningStyle, EnrollmentDate)
+VALUES
+('Paul', 'Cabalejo', '2002-11-22', 'paul.cabalejo@example.com', 'Visual', '2024-01-10'),
+('Ericka', 'Pare', '2000-10-27', 'ericka.pare@example.com', 'Auditory', '2024-01-12');
+
+INSERT INTO courses (CourseName, Description, Credits, InstructorName)
+VALUES
+('Introduction to Computer Science', 'Basic principles of computer science.', 3, 'Dr. Alice Guo'),
+('Advanced Mathematics', 'In-depth study of advanced mathematical concepts.', 4, 'Dr. Tim Baa');
+
+INSERT INTO enrollments (StudentID, CourseID, EnrollmentDate, ProgressStatus)
+VALUES
+(1, 1, '2024-01-15', 'In Progress'),
+(2, 2, '2024-01-18', 'Not Started');
+
+INSERT INTO assessments (CourseID, AssessmentType, DueDate, MaxScore)
+VALUES
+(1, 'Midterm Exam', '2024-03-01', 100),
+(2, 'Final Project', '2024-05-15', 100);
+
+INSERT INTO student_performance (StudentID, AssessmentID, Score, Feedback)
+VALUES
+(1, 1, 85, 'Good performance, needs to improve on algorithms.'),
+(2, 1, 90, 'Excellent work on the final project.');
+
+
+
+DROP TABLE customers;
+DROP TABLE orders;
+DROP TABLE shippings;
