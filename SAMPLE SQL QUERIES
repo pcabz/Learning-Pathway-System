@@ -1,0 +1,51 @@
+SELECT
+    s.FirstName || ' ' || s.LastName AS StudentName,
+    s.Email,
+    c.CourseName,
+    a.AssessmentType
+FROM
+    student_performance sp
+JOIN
+    students s ON sp.StudentID = s.StudentID
+JOIN
+    assessments a ON sp.AssessmentID = a.AssessmentID
+JOIN
+    courses c ON a.CourseID = c.CourseID
+WHERE
+    sp.Score >= 90;
+SELECT
+    c.CourseName,
+    AVG(sp.Score) AS AverageScore
+FROM
+    student_performance sp
+JOIN
+    assessments a ON sp.AssessmentID = a.AssessmentID
+JOIN
+    courses c ON a.CourseID = c.CourseID
+GROUP BY
+    c.CourseName;
+-- Query 1: Students enrolled in courses taught by "Dr. Alice Johnson"
+SELECT
+    s.FirstName || ' ' || s.LastName AS StudentName,
+    s.Email
+FROM
+    enrollments e
+JOIN
+    courses c ON e.CourseID = c.CourseID
+JOIN
+    students s ON e.StudentID = s.StudentID
+WHERE
+    c.InstructorName = 'Dr. Alice Guo'
+
+UNION
+
+-- Query 2: Students who scored 90 or higher in any assessment
+SELECT
+    s.FirstName || ' ' || s.LastName AS StudentName,
+    s.Email
+FROM
+    student_performance sp
+JOIN
+    students s ON sp.StudentID = s.StudentID
+WHERE
+    sp.Score >= 90;
