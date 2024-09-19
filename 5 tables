@@ -1,0 +1,41 @@
+Table students {
+  StudentID int [pk, increment]
+  FirstName varchar
+  LastName varchar
+  DateOfBirth date
+  Email varchar [unique]
+  LearningStyle varchar
+  EnrollmentDate date
+}
+
+Table courses {
+  CourseID int [pk, increment]
+  CourseName varchar
+  Description text
+  Credits int
+  InstructorName varchar
+}
+
+Table enrollments {
+  EnrollmentID int [pk, increment]
+  StudentID int [ref: > students.StudentID]
+  CourseID int [ref: > courses.CourseID]
+  EnrollmentDate date
+  ProgressStatus varchar
+}
+
+Table assessments {
+  AssessmentID int [pk, increment]
+  CourseID int [ref: > courses.CourseID]
+  AssessmentType varchar
+  DueDate date
+  MaxScore int
+}
+
+Table student_performance {
+  PerformanceID int [pk, increment]
+  StudentID int [ref: > students.StudentID]
+  AssessmentID int [ref: > assessments.AssessmentID]
+  Score int
+  Feedback text
+}
